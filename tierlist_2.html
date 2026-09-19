@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TFA Weapon Pack | Tier list</title>
+<style>
+@font-face {
+    font-family: 'MBender';
+    src: url('https://db.onlinewebfonts.com/t/2c45167db073a55a8f7c9e0a058d8c22.woff2') format('woff2');
+}
+
+:root {
+    --bg-main: #0c0d0c;
+    --bg-panel: #141514;
+    --border-color: #3b3d36;
+    --text-main: #c4c3b6;
+    --text-muted: #6e7069;
+    --accent: #9a8866;
+    --tier-s: #932a2a;
+    --tier-a: #65743a;
+    --tier-b: #3a5c74;
+    --tier-c: #55554f;
+    --hover-bg: #1c1d1a;
+    --hover-border: #7c8a67;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    color: var(--text-main);
+    background-color: var(--bg-main);
+    background-image: radial-gradient(circle at 50% 0%, #151615 0%, #080808 100%);
+    font-family: 'MBender', 'Trebuchet MS', sans-serif;
+    min-height: 100vh;
+}
+
+.wrap {
+    max-width: 1440px;
+    margin: auto;
+    padding: 30px 22px 60px;
+}
+
+section { margin: 0 0 40px; }
+
+h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 0 0 15px;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+h2 small {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    letter-spacing: 0;
+}
+
+.tierboard {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(150px, 1fr));
+    gap: 4px;
+    background: #000;
+    border: 1px solid var(--border-color);
+    padding: 4px;
+}
+
+.tier-column {
+    min-height: 118px;
+    background: var(--bg-panel);
+    display: flex;
+    flex-direction: column;
+}
+
+.tier-column h3 {
+    margin: 0;
+    padding: 8px;
+    text-align: center;
+    color: #111;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.tier-column[data-tier="S"] h3 { background: var(--tier-s); color: #dedede; }
+.tier-column[data-tier="A"] h3 { background: var(--tier-a); color: #111; }
+.tier-column[data-tier="B"] h3 { background: var(--tier-b); color: #dedede; }
+.tier-column[data-tier="C"] h3 { background: var(--tier-c); color: #dedede; }
+
+.tier-items {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px;
+}
+
+.weapon {
+    position: relative;
+    padding: 8px 10px;
+    background: #181918;
+    border: 1px solid #2a2b29;
+    cursor: crosshair;
+    transition: all 0.1s ease;
+}
+
+.weapon:hover, .weapon:focus {
+    z-index: 10;
+    border-color: var(--hover-border);
+    background: var(--hover-bg);
+    outline: none;
+}
+
+.weapon-name {
+    display: block;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #e2e2d9;
+    text-transform: uppercase;
+}
+
+.weapon-origin {
+    display: block;
+    margin-top: 3px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.note {
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.85rem;
+    text-align: center;
+    display: block;
+    padding: 10px;
+}
+
+/* Tarkov Tooltip Styles */
+.weapon-tooltip {
+    position: absolute;
+    left: calc(100% + 4px);
+    top: 0;
+    width: max-content;
+    max-width: 280px;
+    background: rgba(18, 19, 18, 0.95);
+    border: 1px solid #4a4d46;
+    box-shadow: 4px 4px 12px rgba(0,0,0,0.8);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+    transform: translateX(-8px);
+    transition: opacity 0.1s ease, transform 0.1s ease;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(4px);
+}
+
+.weapon:nth-child(n+4) .weapon-tooltip {
+    left: auto;
+    right: calc(100% + 4px);
+    transform: translateX(8px);
+}
+
+.weapon:hover .weapon-tooltip, .weapon:focus .weapon-tooltip {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.tooltip-header {
+    background: #252724;
+    color: #e2e2d9;
+    padding: 6px 10px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border-bottom: 1px solid #4a4d46;
+    text-transform: uppercase;
+}
+
+.tooltip-tier {
+    padding: 4px 10px;
+    color: var(--accent);
+    font-size: 0.85rem;
+    background: #151615;
+    border-bottom: 1px solid #2a2b29;
+}
+
+.tooltip-stats {
+    padding: 8px 10px;
+    color: #8c8d88;
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+.tooltip-stats span {
+    display: block;
+}
+
+.tooltip-stats b {
+    color: #b0b1a8;
+    font-weight: normal;
+}
+
+@media(max-width:900px){
+    .tierboard { grid-template-columns: repeat(2, minmax(150px, 1fr)); }
+    .weapon-tooltip { display: none; }
+}
+@media(max-width:600px){
+    .tierboard { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+    <div id="tables"></div>
+</main>
+<script>
+const groups=[
+{name:'Снайперские винтовки',sub:' ',rows:[['Советское/российское','Karabiner 98k','C','калибр 7.92x57 · урон 65 · 1 дробина · RPM 300 · магазин 5 · разброс .05 · точность .0001 · скорость 914 · дальность N/A'],['НАТО','Remington M24A1 SWS','A','калибр 7.62x51 · урон 140 · 1 дробина · RPM N/A · магазин 5 · разброс .0135 · точность .0002 · скорость N/A · дальность N/A'],['Советское/российское','SKS','B','калибр 7.62x39 · урон 83 · 1 дробина · RPM 35–40 · магазин 20 · разброс .016 · точность .008 · скорость 735 · дальность N/A'],['Советское/российское','SVD','A','калибр 7.62x54 · урон 65 · 1 дробина · RPM 30–40 · магазин 10 · разброс .092 · точность .00092 · скорость 830 · дальность N/A'],['Советское/российское','VSK-94','B','калибр 9x39 · урон 32 · 1 дробина · RPM 700 · магазин 20 · разброс .0245 · точность .00245 · скорость 270 · дальность N/A'],['НАТО','AWM','S','калибр .338 Lapua Mag · урон 175 · 1 дробина · RPM N/A · магазин 5 · разброс .022 · точность .0001 · скорость 936 · дальность N/A'],['НАТО','CheyTac M200','S','калибр .408 CT · урон 250 · 1 дробина · RPM N/A · магазин 7 · разброс .057 · точность .000052 · скорость 839 · дальность N/A']]},
+{name:'Автоматические / штурмовые винтовки',sub:' ',rows:[['Советское/российское','9A-91','B','калибр 9x39 · урон 32 · RPM 700 · магазин 20 · разброс .0265 · точность .00265 · скорость 270 · дальность N/A'],['Советское/российское','AKMS','B','калибр 7.62x39 · урон 36 · RPM 600 · магазин 30 · разброс .046 · точность .0046 · скорость 715 · дальность N/A'],['Советское/российское','AKS','B','калибр 7.62x39 · урон 36 · RPM 600 · магазин 30 · разброс .049 · точность .0049 · скорость 715 · дальность N/A'],['Советское/российское','AKS-74','B','калибр 5.45x39 · урон 32 · RPM 650 · магазин 30 · разброс .034 · точность .0034 · скорость 900 · дальность N/A'],['Советское/российское','AKS-74U','C','калибр 5.45x39 · урон 30 · RPM 700 · магазин 30 · разброс .056 · точность .0056 · скорость 735 · дальность N/A'],['Советское/российское','AK-103','S','калибр 7.62x39 · урон 48 · RPM 650 · магазин 30 · разброс .039 · точность .0065 · скорость 900 · дальность N/A'],['Советское/российское','AN-94 Abakan','A','калибр 5.45x39 · урон 40 · RPM 600 auto / 1800 burst · магазин 30 · разброс .03 · точность .02 · скорость 900 · дальность N/A'],['Советское/российское','AEK-971','S','калибр 5.45x39 · урон 36 · RPM 900 · магазин 30 · разброс .015 · точность .01 · скорость 880 · дальность N/A'],['Советское/российское','AS VAL','A','калибр 9x39 · урон 32 · RPM 800–900 · магазин 20 · разброс .0195 · точность .001 · скорость N/A · дальность N/A'],['НАТО','FAMAS F1','B','калибр 5.56x45 · урон 30 · RPM 900–1000 · магазин 25 · разброс .025 · точность .0125 · скорость 960 · дальность N/A'],['НАТО','G36C','C','калибр 5.56x45 · урон 14.3 · RPM 750 · магазин 30 · разброс .015 · точность .0105 · скорость 722 · дальность N/A'],['НАТО','FN FAL','S','калибр 7.62x51 · урон 65 · RPM 650 · магазин 20 · разброс .025 · точность .0038 · скорость 840 · дальность N/A'],['НАТО','L85A2 SA80','B','калибр 5.56x45 · урон 34 · RPM 650 · магазин 30 · разброс .02 · точность .01 · скорость N/A · дальность N/A'],['НАТО','M4A1','A','калибр 5.56x45 · урон 35 · RPM 700–900 · магазин 30 · разброс .02 · точность .005 · скорость 900 · дальность N/A'],['НАТО','MK18','B','калибр 5.56x45 · урон 36 · RPM 740 · магазин 30 · разброс .022 · точность .011 · скорость N/A · дальность N/A'],['Китайское','QBZ-97 (ПРОТОТИП)','B','калибр 5.56x45 · урон 34 · RPM 650 · магазин 30 · разброс .033 · точность .0085 · скорость N/A · дальность N/A'],['Советское/российское','OC-14-4A Groza','B','калибр 9x39 · урон 35 · RPM 750 · магазин 20 · разброс .037 · точность .0037 · скорость N/A · дальность N/A'],['Советское/российское','OC-14-1A Groza-1','A','калибр 7.62x39 · урон 32 · RPM 750 · магазин 30 · разброс .03 · точность .003 · скорость N/A · дальность N/A']]},
+{name:'Пистолеты',sub:' ',rows:[['НАТО','Colt M45A1','B','калибр .45 ACP · урон 50 · RPM 350 · магазин 8 · разброс .014 · точность .003 · скорость N/A · дальность N/A'],['Израильское','Desert Eagle','A','калибр .50 AE · урон 95 · RPM 350 · магазин 7 · разброс .0175 · точность .01 · скорость 402 · дальность N/A'],['Итальянское','Beretta M9','C','калибр 9x19 · урон 26 · RPM 600 · магазин 15 · разброс .015 · точность .005 · скорость N/A · дальность N/A'],['Прочие','MR-96','A','калибр .357 Magnum · урон 80 · RPM 270 · магазин 6 · разброс .0162 · точность .0025 · скорость N/A · дальность N/A'],['Советское/российское','Makarov PM','C','калибр 9x18 · урон 26 · RPM 700 · магазин 8 · разброс .015 · точность .005 · скорость N/A · дальность N/A'],['Израильское','King Cobra','S','калибр .357 Magnum · урон 115 · RPM 250 · магазин 6 · разброс .01 · точность .0005 · скорость N/A · дальность N/A'],['НАТО','Walther P99','B','калибр 9x19 · урон 30 · RPM 700 · магазин 15 · разброс .015 · точность .0047 · скорость N/A · дальность N/A']]},
+{name:'Дробовики',sub:'урон указан за одну дробину',rows:[['Советское/российское','TOZ-66 Sawed Off','C','калибр buckshot · урон 12.8 × 9 дробин · RPM N/A · магазин 2 · разброс .085 · точность .08 · скорость N/A · дальность N/A'],['Советское/российское','TOZ-66','C','калибр buckshot · урон 12.8 × 9 дробин · RPM N/A · магазин 2 · разброс .035 · точность .03 · скорость N/A · дальность N/A'],['Советское/российское','Armsel Protecta','S','калибр buckshot · урон 13 × 9 дробин · RPM 155 · магазин 12 · разброс .052 · точность .05 · скорость N/A · дальность N/A'],['Советское/российское','TOZ-34','B','калибр buckshot · урон 13.3 × 9 дробин · RPM N/A · магазин 2 · разброс .035 · точность .03 · скорость N/A · дальность N/A'],['Советское/российское','TOZ-34 Sawed Off','C','калибр buckshot · урон 12.8 × 9 дробин · RPM N/A · магазин 2 · разброс .0712 · точность .07 · скорость N/A · дальность N/A'],['НАТО','Fort-500','B','калибр buckshot · урон 13 × 11 дробин · RPM N/A · магазин 7 · разброс .04 · точность .035 · скорость N/A · дальность N/A'],['Советское/российское','IZH-43 Sawed Off','C','калибр buckshot · урон 16 × 12 дробин · RPM N/A · магазин 2 · разброс .0415 · точность .035 · скорость N/A · дальность N/A'],['НАТО','M1014','A','калибр buckshot · урон 12 × 12 дробин · RPM N/A · магазин 6 · разброс .043 · точность .035 · скорость N/A · дальность N/A'],['НАТО','M500','A','калибр buckshot · урон 16 × 12 дробин · RPM N/A · магазин 6 · разброс .05 · точность .035 · скорость N/A · дальность N/A'],['Итальянское','Benelli Nova','A','калибр buckshot · урон 13 × 11 дробин · RPM N/A · магазин 5 · разброс .04 · точность .035 · скорость N/A · дальность N/A'],['НАТО','Remington M870','B','калибр buckshot · урон 13.45 × 12 дробин · RPM N/A · магазин 7 · разброс .033 · точность .03 · скорость N/A · дальность N/A'],['Советское/российское','TOZ-194M','B','калибр buckshot · урон 20 × 8 дробин · RPM N/A · магазин 7 · разброс .042 · точность .035 · скорость N/A · дальность N/A'],['Советское/российское','TOZ','B','калибр buckshot · урон 25 × 8 дробин · RPM N/A · магазин 7 · разброс .05 · точность .045 · скорость N/A · дальность N/A']]},
+{name:'Пистолеты-пулемёты (ПП)',sub:' ',rows:[['Советское/российское','PP-19 Bizon','B','калибр 9x18 · урон 24 · RPM 675 · магазин 64 · разброс .057 · точность .0057 · скорость N/A · дальность N/A'],['НАТО','MP7','A','калибр 4.6x30 · урон 27 · RPM 950 · магазин 40 · разброс .025 · точность .015 · скорость N/A · дальность N/A'],['Советское/российское','PPSH-41','B','калибр 7.62x25 · урон 24 · RPM 900 · магазин 71 · разброс .065 · точность .0065 · скорость 488 · дальность N/A'],['НАТО','H&K MP5A5','A','калибр 9x19 · урон 33 · RPM 800 · магазин 30 · разброс .0223 · точность .0092 · скорость 400 · дальность N/A'],['НАТО','Sterling','B','калибр 9x19 · урон 40 · RPM 550 · магазин 34 · разброс .04 · точность .02 · скорость N/A · дальность N/A'],['НАТО','UMP 45 (ПРОТОТИП)','B','калибр .45 ACP · урон 28 · RPM 600–700 · магазин 25 · разброс .04 · точность .02 · скорость N/A · дальность N/A']]},
+{name:'Ручные пулемёты',sub:' ',rows:[['НАТО','H&K MG36','A','калибр 5.56x45 · урон 35 · RPM 750 · магазин 100 · разброс .038 · точность .007 · скорость 920 · дальность N/A'],['Советское/российское','ПКМ','S','калибр 7.62x54 · урон 34 · RPM 650 · магазин 100 · разброс .034 · точность .0034 · скорость 825 · дальность N/A'],['Советское/российское','РПК','B','калибр 7.62x39 · урон 36 · RPM 600 · магазин 40 · разброс .033 · точность .0033 · скорость 745 · дальность N/A'],['Советское/российское','РПК-74','A','калибр 5.45x39 · урон 40 · RPM 600 · магазин 45 · разброс .028 · точность .0028 · скорость 960 · дальность N/A'],['Советское/российское','РПК-74М','S','калибр 5.45x39 · урон 40 · RPM 630 · магазин 75 · разброс .0195 · точность .0075 · скорость 960 · дальность N/A'],['Советское/российское','РПД','B','калибр 7.62x39 · урон 34 · RPM 700 · магазин 100 · разброс .038 · точность .0038 · скорость N/A · дальность N/A']]},
+{name:'Гранатомёты',sub:' ',rows:[['Советское/российское','РГ-6','A','калибр 40mm VOG · урон 150 · RPM 2–4 практический · магазин 6 · разброс .036 · точность .036 · скорость 76.5 · дальность N/A'],['Советское/российское','РПГ-7','S','калибр 40mm · урон 100 · RPM 4–6 практический · магазин 1 · разброс .033 · точность .033 · скорость N/A · дальность N/A']]}
+];
+
+const sourceNames={'ПКМ':'PKM','РПК':'RPK','РПК-74':'RPK-74','РПК-74М':'RPK-74M','РПД':'RPD','РГ-6':'RG-6','РПГ-7':'RPG-7'};
+
+function renderBoard(group) {
+    const order = ['C', 'B', 'A', 'S'];
+    return `<section>
+        <h2>${group.name} <small>${group.sub}</small></h2>
+        <div class="tierboard">
+            ${order.map(tier => {
+                const items = group.rows
+                    .filter(row => row[2] === tier)
+                    .sort((a,b) => a[1].localeCompare(b[1], 'ru'))
+                    .map(([origin, name, level, stats]) => {
+                        const displayName = sourceNames[name] || name;
+                        
+                        const statsHtml = stats.split(' · ').map(stat => {
+                            let parts = stat.split(' ');
+                            let key = parts.shift();
+                            return `<span><b>${key}</b> ${parts.join(' ')}</span>`;
+                        }).join('');
+
+                        return `
+                        <div class="weapon" tabindex="0">
+                            <span class="weapon-name">${displayName}</span>
+                            <span class="weapon-origin">${origin}</span>
+                            <div class="weapon-tooltip">
+                                <div class="tooltip-header">${displayName}</div>
+                                <div class="tooltip-tier">Класс: ${level}</div>
+                                <div class="tooltip-stats">${statsHtml}</div>
+                            </div>
+                        </div>`;
+                    }).join('');
+                
+                return `
+                <div class="tier-column" data-tier="${tier}">
+                    <h3>${tier}</h3>
+                    <div class="tier-items">
+                        ${items || '<span class="note">Нет оружия</span>'}
+                    </div>
+                </div>`;
+            }).join('')}
+        </div>
+    </section>`;
+}
+
+document.getElementById('tables').innerHTML = groups.map(renderBoard).join('');
+</script>
+</body>
+</html>
